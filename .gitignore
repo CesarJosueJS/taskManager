@@ -12,3 +12,4 @@
 #Local Enviroments
 .idea
 .venv
+tasks.json
