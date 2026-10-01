@@ -56,9 +56,18 @@ class TaskManager:
 
         print (f"Tarea no encontrada: #{id}")
 
+    def delete_all_tasks(self):
+        for task in self._tasks:
+            print(f"Tarea eliminada: #{task}")
+
+        self._tasks.clear()
+        self._next_id = 1  # Opcional: reinicia el contador de IDs
+        self.save_tasks()
+        print("Todas las tareas eliminadas con éxito")
+
     def load_tasks(self):
         try:
-            with open(self.FILENAME, "r") as file:
+            with open(self.FILENAME, "r", encoding="utf-8") as file:
                 data = json.load(file)
                 self._tasks = [Task(item["id"], item["description"], item["completed"]) for item in data]
                 if self._tasks:
@@ -71,5 +80,5 @@ class TaskManager:
 
 
     def save_tasks(self):
-        with open(self.FILENAME, "w") as file:
-            json.dump([{"id" : task.id, "description": task.description, "completed": task.completed} for task in self._tasks], file, indent=4)
+        with open(self.FILENAME, "w", encoding="utf-8") as file:
+            json.dump([{"id" : task.id, "description": task.description, "completed": task.completed} for task in self._tasks], file, indent=4, ensure_ascii=False)
